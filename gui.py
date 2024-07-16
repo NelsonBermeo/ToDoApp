@@ -1,5 +1,10 @@
 import functions
 import FreeSimpleGUI as fsg
+import os
+
+if not os.path.exists("todos.txt"):
+    with open("todos.txt", "w") as file:
+        pass
 
 fsg.theme("Black")
 
@@ -34,7 +39,7 @@ while True:
         case "Edit":
             try:
                 todo_to_edit = values["todos"][0]
-                new_todo = values["todo"]#[0]
+                new_todo = values["todo"] + "\n"
                 todos = functions.get_todos()
                 index = todos.index(todo_to_edit)
                 todos[index] = new_todo
@@ -52,7 +57,9 @@ while True:
                 window["todos"].update(values=todos)
                 window["todo"].update(value="")
             except IndexError:
-                fsg.popup("Please select an item before pressing edit", font=("Helvetica",20))
+                fsg.popup("Please select an item before pressing complete", font=("Helvetica",20))
+            except ValueError:
+                fsg.popup("Please select an item before pressing complete", font=("Helvetica",20))
         case "Exit":
             break
         case fsg.WIN_CLOSED:
